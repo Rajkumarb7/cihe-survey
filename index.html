@@ -2,563 +2,567 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CIHE Student Academic Experience Survey — Raj Kumar Bhattrai</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CIHE Student Survey 2026 — Raj Kumar Bhattrai</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black:   #0a0a0a;
-  --navy:    #0d1b3e;
-  --blue:    #1a4fd6;
-  --blue2:   #2563eb;
-  --sky:     #3b82f6;
-  --iceblue: #dbeafe;
-  --white:   #ffffff;
-  --offwhite:#f8faff;
-  --grey1:   #f1f5f9;
-  --grey2:   #e2e8f0;
-  --grey3:   #94a3b8;
-  --ink:     #1e293b;
-  --red:     #dc2626;
-  --green:   #16a34a;
-  --radius:  12px;
+  --black:    #000000;
+  --navy:     #0a1628;
+  --navy2:    #0f2044;
+  --blue:     #1d4ed8;
+  --blue2:    #2563eb;
+  --sky:      #3b82f6;
+  --ice:      #dbeafe;
+  --ice2:     #eff6ff;
+  --white:    #ffffff;
+  --off:      #f8faff;
+  --g1:       #f1f5f9;
+  --g2:       #e2e8f0;
+  --g3:       #94a3b8;
+  --ink:      #0f172a;
+  --red:      #dc2626;
+  --green:    #16a34a;
+  --r: 12px;
+  --shadow:   0 2px 20px rgba(0,0,0,.08);
+  --shadowlg: 0 8px 40px rgba(0,0,0,.14);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--offwhite);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--off);
   color: var(--ink);
   font-size: 16px;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── PROGRESS ── */
 #prog-wrap {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  height: 5px; background: var(--grey2);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  height: 4px; background: rgba(0,0,0,.15);
 }
 #prog-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--navy), var(--blue), var(--sky));
+  background: linear-gradient(90deg, #1d4ed8, #3b82f6, #60a5fa);
   width: 0%;
-  transition: width .4s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 0 8px rgba(37,99,235,.5);
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 10px rgba(59,130,246,.7);
 }
+#prog-label {
+  position: fixed; top: 8px; right: 12px; z-index: 301;
+  font-size: 11px; font-weight: 700; color: var(--sky);
+  background: rgba(0,0,0,.7); padding: 3px 9px; border-radius: 20px;
+  letter-spacing: .05em; backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity .3s;
+}
+#prog-label.show { opacity: 1; }
 
-/* ── HERO HEADER ── */
+/* ── HERO ── */
 .hero {
-  background: var(--navy);
+  background: var(--black);
   color: var(--white);
-  padding: 0;
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 80% at 0% 50%, rgba(26,79,214,.45) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 100% 20%, rgba(59,130,246,.3) 0%, transparent 55%);
-  pointer-events: none;
+    radial-gradient(ellipse 90% 100% at -10% 50%, rgba(29,78,216,.6) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 110% 10%, rgba(59,130,246,.4) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 110%, rgba(29,78,216,.2) 0%, transparent 50%);
 }
 .hero-grid {
-  position: absolute; inset: 0; pointer-events: none; opacity: .06;
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: .04;
   background-image:
-    linear-gradient(rgba(255,255,255,.8) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.8) 1px, transparent 1px);
+    linear-gradient(white 1px, transparent 1px),
+    linear-gradient(90deg, white 1px, transparent 1px);
   background-size: 48px 48px;
 }
 .hero-inner {
   position: relative; z-index: 1;
-  max-width: 860px; margin: 0 auto;
-  padding: 56px 24px 48px;
+  max-width: 880px; margin: 0 auto;
+  padding: clamp(40px,8vw,72px) clamp(16px,5vw,40px) clamp(36px,6vw,56px);
 }
-.hero-top {
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 32px;
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(20px,4vw,32px);
 }
-.cihe-badge {
-  background: rgba(255,255,255,.1);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 6px;
-  padding: 5px 14px;
-  font-size: 12px; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: rgba(255,255,255,.75);
+.badge {
+  border-radius: 6px; padding: 5px 13px;
+  font-size: clamp(10px,2vw,12px); font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
 }
-.unit-badge {
-  background: var(--blue);
-  border-radius: 6px;
-  padding: 5px 14px;
-  font-size: 12px; font-weight: 600; letter-spacing: .08em;
-  color: var(--white);
-}
+.badge-outline { border: 1.5px solid rgba(255,255,255,.25); color: rgba(255,255,255,.7); }
+.badge-solid   { background: var(--blue2); color: var(--white); }
+.badge-green   { background: #166534; color: #86efac; }
+
 .hero h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(26px, 5vw, 42px);
-  line-height: 1.18;
-  font-weight: 700;
-  margin-bottom: 16px;
+  font-size: clamp(24px, 5.5vw, 48px);
+  line-height: 1.15; font-weight: 700;
   color: var(--white);
+  margin-bottom: clamp(12px,2vw,18px);
 }
-.hero h1 span { color: #93c5fd; }
+.hero h1 em { font-style: normal; color: #93c5fd; }
 .hero-sub {
-  font-size: 17px; color: rgba(255,255,255,.65);
-  max-width: 640px; margin-bottom: 36px; font-weight: 300;
+  font-size: clamp(14px,2.5vw,17px);
+  color: rgba(255,255,255,.6);
+  max-width: 580px;
+  margin-bottom: clamp(24px,4vw,40px);
+  font-weight: 300; line-height: 1.7;
 }
 
-/* Researcher card in hero */
-.researcher-card {
-  display: inline-flex; align-items: center; gap: 16px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: var(--radius);
-  padding: 16px 22px;
-  margin-bottom: 32px;
+/* Researcher card */
+.r-card {
+  display: inline-flex; align-items: center; gap: clamp(10px,2vw,18px);
+  background: rgba(255,255,255,.06);
+  border: 1.5px solid rgba(255,255,255,.14);
+  border-radius: var(--r);
+  padding: clamp(12px,2vw,18px) clamp(14px,3vw,24px);
+  margin-bottom: clamp(24px,4vw,40px);
+  backdrop-filter: blur(8px);
 }
-.researcher-avatar {
-  width: 52px; height: 52px;
+.r-avatar {
+  width: clamp(44px,8vw,56px); height: clamp(44px,8vw,56px);
   background: linear-gradient(135deg, var(--blue), var(--sky));
-  border-radius: 50%;
+  border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Playfair Display', serif;
-  font-size: 20px; font-weight: 700; color: var(--white);
-  flex-shrink: 0;
-  border: 2px solid rgba(255,255,255,.25);
+  font-size: clamp(16px,3vw,22px); font-weight: 700; color: var(--white);
+  border: 2px solid rgba(255,255,255,.2);
+  box-shadow: 0 0 0 4px rgba(59,130,246,.2);
 }
-.researcher-info { line-height: 1.4; }
-.researcher-name {
-  font-size: 17px; font-weight: 700; color: var(--white);
-}
-.researcher-role {
-  font-size: 13px; color: rgba(255,255,255,.55);
-  margin-top: 2px;
-}
+.r-name  { font-size: clamp(15px,2.5vw,18px); font-weight: 700; color: var(--white); }
+.r-role  { font-size: clamp(11px,2vw,13px); color: rgba(255,255,255,.5); margin-top: 3px; }
 
-/* Hero stats strip */
-.hero-stats {
-  display: flex; gap: 0;
+/* Stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
   border-top: 1px solid rgba(255,255,255,.1);
-  padding-top: 28px;
-  flex-wrap: wrap;
+  padding-top: clamp(20px,4vw,32px);
 }
-.hero-stat {
-  flex: 1; min-width: 120px;
-  padding: 0 24px 0 0;
-}
-.hero-stat:not(:last-child) {
+.stat { padding: 0 clamp(8px,2vw,20px) 0 0; }
+.stat:not(:last-child) {
   border-right: 1px solid rgba(255,255,255,.1);
-  margin-right: 24px;
+  margin-right: clamp(8px,2vw,20px);
 }
-.stat-val {
+.stat-v {
   font-family: 'Playfair Display', serif;
-  font-size: 28px; font-weight: 700; color: #93c5fd;
+  font-size: clamp(22px,4vw,34px); font-weight: 700; color: #93c5fd;
   line-height: 1;
 }
-.stat-lbl {
-  font-size: 12px; color: rgba(255,255,255,.5);
-  margin-top: 4px; text-transform: uppercase; letter-spacing: .07em;
-}
+.stat-l { font-size: clamp(10px,1.8vw,12px); color: rgba(255,255,255,.45); margin-top: 4px; text-transform: uppercase; letter-spacing: .07em; }
 
-/* ── MAIN LAYOUT ── */
+/* ── MAIN ── */
 .main {
-  max-width: 860px; margin: 0 auto;
-  padding: 40px 24px 80px;
+  max-width: 880px; margin: 0 auto;
+  padding: clamp(24px,5vw,48px) clamp(16px,5vw,40px) clamp(60px,10vw,100px);
 }
 
-/* ── OBJECTIVE CARD ── */
-.objective-card {
+/* ── CARDS ── */
+.card {
   background: var(--white);
-  border: 1px solid var(--grey2);
-  border-left: 5px solid var(--blue);
-  border-radius: var(--radius);
-  padding: 32px 36px;
-  margin-bottom: 28px;
-  box-shadow: 0 2px 16px rgba(10,10,10,.06);
+  border: 1.5px solid var(--g2);
+  border-radius: var(--r);
+  margin-bottom: clamp(16px,3vw,24px);
+  overflow: hidden;
+  box-shadow: var(--shadow);
 }
-.card-eyebrow {
+.card-fade { animation: fadeUp .45s ease both; }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Objective card */
+.obj-card {
+  border-left: 5px solid var(--blue);
+  padding: clamp(20px,4vw,36px) clamp(20px,4vw,36px);
+}
+.eyebrow {
   font-size: 11px; font-weight: 700; letter-spacing: .14em;
   text-transform: uppercase; color: var(--blue);
   margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 10px;
 }
-.card-eyebrow::after {
-  content: ''; flex: 1; height: 1px; background: var(--grey2);
-}
-.objective-card h2 {
+.eyebrow::after { content:''; flex:1; height:1px; background:var(--g2); }
+.obj-card h2 {
   font-family: 'Playfair Display', serif;
-  font-size: 22px; color: var(--navy);
-  margin-bottom: 14px;
+  font-size: clamp(18px,3vw,24px); color: var(--navy);
+  margin-bottom: clamp(10px,2vw,16px);
 }
-.objective-card p {
-  font-size: 15.5px; color: var(--ink);
-  line-height: 1.75; margin-bottom: 12px;
+.obj-card p {
+  font-size: clamp(14px,2vw,16px); color: #334155;
+  line-height: 1.8; margin-bottom: 12px;
 }
-.objective-card p:last-child { margin-bottom: 0; }
+.obj-card p:last-child { margin-bottom:0; }
 
-/* ── CONSENT CARD ── */
+/* Consent card */
 .consent-card {
-  background: var(--iceblue);
+  background: var(--ice2);
   border: 1.5px solid #bfdbfe;
-  border-radius: var(--radius);
-  padding: 24px 28px;
-  margin-bottom: 28px;
-  display: flex; gap: 16px; align-items: flex-start;
+  border-radius: var(--r);
+  padding: clamp(16px,3vw,26px) clamp(16px,3vw,26px);
+  margin-bottom: clamp(16px,3vw,24px);
+  display: flex; gap: clamp(10px,2vw,16px); align-items: flex-start;
 }
-.consent-icon {
-  font-size: 22px; flex-shrink: 0; margin-top: 2px;
-}
-.consent-card h3 {
-  font-size: 15px; font-weight: 700; color: var(--navy);
-  margin-bottom: 8px;
-}
-.consent-card p {
-  font-size: 14.5px; color: #1e40af; line-height: 1.65;
-}
+.consent-icon { font-size: clamp(18px,3vw,24px); flex-shrink:0; margin-top:2px; }
+.consent-card h3 { font-size: clamp(14px,2vw,16px); font-weight:700; color:var(--navy); margin-bottom:8px; }
+.consent-card p  { font-size: clamp(13px,1.8vw,15px); color:#1e40af; line-height:1.7; }
 
-/* ── PARTICIPANT ID STRIP ── */
-.pid-strip {
+/* PID strip */
+.pid {
   background: var(--black);
-  color: var(--white);
-  border-radius: var(--radius);
-  padding: 18px 24px;
-  margin-bottom: 28px;
-  display: flex; align-items: center; gap: 16px;
+  border-radius: var(--r);
+  padding: clamp(14px,2.5vw,20px) clamp(16px,3vw,26px);
+  margin-bottom: clamp(16px,3vw,24px);
+  display: flex; align-items: center; gap: clamp(10px,2vw,18px);
   border: 1px solid #1e293b;
+  flex-wrap: wrap;
 }
 .pid-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 0 3px rgba(34,197,94,.25);
-  flex-shrink: 0;
-  animation: pulse 2s infinite;
+  width:10px; height:10px; border-radius:50%; background:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.25); flex-shrink:0;
+  animation: glow 2s infinite;
 }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,.25); }
-  50% { box-shadow: 0 0 0 6px rgba(34,197,94,.1); }
+@keyframes glow {
+  0%,100% { box-shadow:0 0 0 3px rgba(34,197,94,.25); }
+  50%      { box-shadow:0 0 0 7px rgba(34,197,94,.1); }
 }
-.pid-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: .1em; }
-.pid-code {
-  font-size: 20px; font-weight: 700; color: #60a5fa;
-  letter-spacing: .08em; font-family: 'Inter', monospace;
-}
-.pid-note { margin-left: auto; font-size: 12px; color: #475569; }
+.pid-lbl { font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:.1em; }
+.pid-val { font-size: clamp(18px,3vw,22px); font-weight:700; color:#60a5fa; letter-spacing:.1em; }
+.pid-note { margin-left:auto; font-size:12px; color:#475569; }
 
-/* ── SECTION CARD ── */
-.section-card {
-  background: var(--white);
-  border: 1px solid var(--grey2);
-  border-radius: var(--radius);
-  margin-bottom: 24px;
-  overflow: hidden;
-  box-shadow: 0 2px 16px rgba(10,10,10,.06);
-  animation: fadeUp .4s ease both;
-}
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(20px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-.section-header {
+/* Section header */
+.sec-head {
   background: var(--navy);
-  padding: 20px 28px;
-  display: flex; align-items: center; gap: 14px;
+  padding: clamp(16px,3vw,22px) clamp(20px,4vw,30px);
+  display: flex; align-items: center; gap: clamp(10px,2vw,16px);
 }
-.section-letter {
-  width: 38px; height: 38px;
-  background: var(--blue);
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 18px; font-weight: 700; color: var(--white);
-  flex-shrink: 0;
+.sec-letter {
+  width: clamp(34px,5vw,42px); height: clamp(34px,5vw,42px);
+  background: var(--blue2); border-radius: 8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size: clamp(16px,2.5vw,20px); font-weight:700; color:var(--white);
 }
-.section-title-wrap h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 19px; color: var(--white); font-weight: 600;
-}
-.section-title-wrap p {
-  font-size: 13px; color: rgba(255,255,255,.5); margin-top: 2px;
-}
-.section-body { padding: 32px 28px; }
+.sec-head h3 { font-family:'Playfair Display',serif; font-size:clamp(16px,2.5vw,20px); color:var(--white); font-weight:600; }
+.sec-head p  { font-size:clamp(11px,1.8vw,13px); color:rgba(255,255,255,.5); margin-top:2px; }
 
-/* ── QUESTION ── */
-.question { margin-bottom: 32px; }
-.question:last-child { margin-bottom: 0; }
+.sec-body { padding: clamp(20px,4vw,36px) clamp(16px,4vw,30px); }
 
-.q-label {
-  font-size: 16px; font-weight: 600; color: var(--navy);
-  margin-bottom: 14px; line-height: 1.45;
-  display: flex; gap: 10px; align-items: flex-start;
+/* Question */
+.q { margin-bottom: clamp(22px,4vw,36px); }
+.q:last-child { margin-bottom:0; }
+.q-lbl {
+  font-size: clamp(14px,2vw,17px); font-weight:600; color:var(--navy);
+  margin-bottom: clamp(10px,2vw,16px); line-height:1.45;
+  display:flex; gap:10px; align-items:flex-start;
 }
 .q-num {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 28px; height: 28px;
-  background: var(--blue); color: var(--white);
-  border-radius: 6px; font-size: 12px; font-weight: 700;
-  flex-shrink: 0; margin-top: 1px;
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width: clamp(24px,3vw,30px); height: clamp(24px,3vw,30px);
+  background:var(--blue); color:var(--white);
+  border-radius:6px; font-size:clamp(11px,1.5vw,13px); font-weight:800;
+  flex-shrink:0; margin-top:1px;
 }
-.required { color: var(--red); margin-left: 3px; }
+.req { color:var(--red); margin-left:2px; }
 
-/* ── OPTIONS ── */
-.options { display: flex; flex-direction: column; gap: 10px; }
-.options.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* Options */
+.opts { display:flex; flex-direction:column; gap:clamp(7px,1.5vw,11px); }
+.opts.g2 { display:grid; grid-template-columns:1fr 1fr; gap:clamp(7px,1.5vw,11px); }
 
 .opt {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 18px;
-  border: 2px solid var(--grey2);
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 15px; color: var(--ink); font-weight: 400;
-  background: var(--offwhite);
-  transition: all .18s ease;
-  user-select: none;
-  line-height: 1.35;
+  display:flex; align-items:center; gap:clamp(10px,2vw,14px);
+  padding: clamp(11px,2vw,15px) clamp(14px,2.5vw,20px);
+  border: 2px solid var(--g2);
+  border-radius: 10px; cursor:pointer;
+  font-size: clamp(13px,2vw,16px); color:var(--ink); font-weight:400;
+  background: var(--off);
+  transition: border-color .15s, background .15s, color .15s;
+  user-select:none; line-height:1.35;
+  -webkit-tap-highlight-color: transparent;
 }
-.opt:hover {
-  border-color: var(--sky);
-  background: var(--iceblue);
-  color: var(--navy);
+.opt:hover { border-color:var(--sky); background:var(--ice); color:var(--navy); }
+.opt:active { transform:scale(.99); }
+.opt input[type="radio"], .opt input[type="checkbox"] {
+  appearance:none; -webkit-appearance:none;
+  width: clamp(18px,3vw,22px); height: clamp(18px,3vw,22px); flex-shrink:0;
+  border:2.5px solid #cbd5e1; border-radius:50%;
+  transition:all .15s; position:relative; background:var(--white);
 }
-.opt input[type="radio"],
-.opt input[type="checkbox"] {
-  appearance: none; -webkit-appearance: none;
-  width: 20px; height: 20px; flex-shrink: 0;
-  border: 2px solid #cbd5e1; border-radius: 50%;
-  transition: all .18s; position: relative;
-  background: var(--white);
-}
-.opt input[type="checkbox"] { border-radius: 5px; }
-.opt input[type="radio"]:checked,
-.opt input[type="checkbox"]:checked {
-  background: var(--blue); border-color: var(--blue);
+.opt input[type="checkbox"] { border-radius:5px; }
+.opt input[type="radio"]:checked, .opt input[type="checkbox"]:checked {
+  background:var(--blue); border-color:var(--blue);
 }
 .opt input[type="radio"]:checked::after {
-  content: ''; position: absolute; top:50%; left:50%;
-  transform: translate(-50%,-50%);
+  content:''; position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
   width:7px; height:7px; background:white; border-radius:50%;
 }
 .opt input[type="checkbox"]:checked::after {
   content:'✓'; position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%);
-  color:white; font-size:12px; font-weight:800;
+  color:white; font-size:11px; font-weight:900;
 }
 .opt:has(input:checked) {
-  border-color: var(--blue);
-  background: #eff6ff;
-  color: var(--navy);
-  font-weight: 500;
+  border-color:var(--blue); background:#eff6ff; color:var(--navy); font-weight:600;
+  box-shadow: inset 0 0 0 1px rgba(29,78,216,.2);
 }
 
-/* ── LIKERT TABLE ── */
-.likert-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.likert-tbl {
-  width: 100%; border-collapse: collapse; min-width: 440px;
-  font-size: 15px;
+/* Likert */
+.likert-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:8px; border:1.5px solid var(--g2); }
+.ltbl { width:100%; border-collapse:collapse; min-width:420px; }
+.ltbl thead tr { background:var(--navy); }
+.ltbl thead th {
+  color:rgba(255,255,255,.8); font-weight:600;
+  padding: clamp(10px,2vw,14px) 8px;
+  text-align:center; font-size: clamp(11px,1.8vw,13px);
 }
-.likert-tbl thead tr {
-  background: var(--navy);
+.ltbl thead th:first-child { text-align:left; padding-left: clamp(12px,2.5vw,18px); width:50%; }
+.ltbl tbody tr { border-bottom:1px solid var(--g1); }
+.ltbl tbody tr:last-child { border-bottom:none; }
+.ltbl tbody tr:nth-child(even) { background:var(--off); }
+.ltbl tbody tr:hover { background:var(--ice2); }
+.ltbl tbody td { padding: clamp(10px,2vw,14px) 8px; text-align:center; vertical-align:middle; }
+.ltbl tbody td:first-child {
+  text-align:left; padding-left: clamp(12px,2.5vw,18px);
+  font-size: clamp(13px,2vw,15px); color:var(--ink); line-height:1.4;
+  padding-right:12px;
 }
-.likert-tbl thead th {
-  color: rgba(255,255,255,.8); font-weight: 600;
-  padding: 12px 8px; text-align: center; font-size: 13px;
+.ltbl tbody td:first-child strong { color:var(--blue); font-size:clamp(11px,1.5vw,12px); font-weight:800; display:block; margin-bottom:2px; letter-spacing:.04em; }
+.lr {
+  appearance:none; -webkit-appearance:none;
+  width: clamp(20px,3.5vw,24px); height: clamp(20px,3.5vw,24px);
+  border:2.5px solid #cbd5e1; border-radius:50%;
+  cursor:pointer; transition:all .15s; position:relative;
+  display:block; margin:0 auto; background:var(--white);
+  -webkit-tap-highlight-color:transparent;
 }
-.likert-tbl thead th:first-child { text-align: left; padding-left: 16px; }
-.likert-tbl tbody tr { border-bottom: 1px solid var(--grey2); }
-.likert-tbl tbody tr:last-child { border-bottom: none; }
-.likert-tbl tbody tr:hover { background: #f8faff; }
-.likert-tbl tbody td {
-  padding: 13px 8px; text-align: center; vertical-align: middle;
-}
-.likert-tbl tbody td:first-child {
-  text-align: left; padding-left: 16px;
-  font-size: 14.5px; color: var(--ink); line-height: 1.4;
-  max-width: 280px; padding-right: 16px;
-}
-.likert-tbl tbody td:first-child strong {
-  color: var(--blue); font-weight: 700; font-size: 13px;
-  display: block; margin-bottom: 2px;
-}
-.likert-radio {
-  appearance: none; -webkit-appearance: none;
-  width: 22px; height: 22px;
-  border: 2px solid #cbd5e1; border-radius: 50%;
-  cursor: pointer; transition: all .18s;
-  position: relative; display: block; margin: 0 auto;
-  background: var(--white);
-}
-.likert-radio:checked {
-  background: var(--blue); border-color: var(--blue);
-}
-.likert-radio:checked::after {
+.lr:checked { background:var(--blue); border-color:var(--blue); }
+.lr:checked::after {
   content:''; position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%);
   width:7px; height:7px; background:white; border-radius:50%;
 }
-.likert-scale-strip {
-  display: flex; justify-content: space-between;
-  padding: 8px 8px 0;
-  font-size: 12px; color: var(--grey3); font-weight: 500;
+.scale-strip {
+  display:flex; justify-content:space-between;
+  padding: 8px clamp(12px,2.5vw,18px) 2px;
+  font-size: clamp(10px,1.8vw,12px); color:var(--g3); font-weight:500;
+  margin-top:4px;
 }
-.likert-scale-strip span:first-child { padding-left: 16px; }
-.likert-scale-strip span:last-child  { padding-right: 8px; }
 
-/* ── TEXTAREA ── */
+/* Textarea */
 textarea {
-  width: 100%; padding: 14px 16px;
-  border: 2px solid var(--grey2); border-radius: 10px;
-  font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink);
-  background: var(--offwhite); resize: vertical; min-height: 90px;
-  transition: border-color .18s; outline: none; line-height: 1.6;
+  width:100%; padding: clamp(12px,2vw,16px) clamp(12px,2vw,16px);
+  border:2px solid var(--g2); border-radius:10px;
+  font-family:'Inter',sans-serif; font-size: clamp(14px,2vw,16px); color:var(--ink);
+  background:var(--off); resize:vertical; min-height:90px;
+  transition:border-color .2s; outline:none; line-height:1.6;
 }
-textarea:focus { border-color: var(--blue); background: var(--white); }
-textarea::placeholder { color: #94a3b8; }
+textarea:focus { border-color:var(--blue); background:var(--white); box-shadow:0 0 0 3px rgba(29,78,216,.1); }
+textarea::placeholder { color:#94a3b8; }
 
-/* ── DIVIDER ── */
-.q-divider { height: 1px; background: var(--grey2); margin: 28px 0; }
+/* Divider */
+.div { height:1px; background:var(--g1); margin: clamp(18px,3vw,28px) 0; }
 
-/* ── SUBMIT ── */
-.submit-area {
-  text-align: center; padding: 40px 0 0;
+/* Submit */
+.sub-area { text-align:center; padding: clamp(28px,5vw,48px) 0 0; }
+.btn-sub {
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--black);
+  color:var(--white);
+  font-family:'Inter',sans-serif;
+  font-size: clamp(15px,2.5vw,18px); font-weight:700;
+  padding: clamp(14px,2.5vw,20px) clamp(32px,6vw,60px);
+  border:none; border-radius:50px; cursor:pointer;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  transition:all .22s ease;
+  letter-spacing:.01em; position:relative; overflow:hidden;
+  -webkit-tap-highlight-color:transparent;
+  min-width: clamp(220px,50vw,300px);
+  justify-content:center;
 }
-.btn-submit {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--navy);
-  color: var(--white);
-  font-family: 'Inter', sans-serif;
-  font-size: 17px; font-weight: 700;
-  padding: 18px 52px;
-  border: none; border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 8px 32px rgba(13,27,62,.35);
-  transition: all .22s ease;
-  letter-spacing: .01em;
-  position: relative; overflow: hidden;
+.btn-sub::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.08) 50%, transparent 100%);
+  transform:translateX(-100%); transition:transform .6s;
 }
-.btn-submit::before {
-  content:'';
-  position:absolute; inset:0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
-  transform: translateX(-100%);
-  transition: transform .5s;
-}
-.btn-submit:hover { background: var(--blue); transform: translateY(-3px); box-shadow: 0 14px 40px rgba(26,79,214,.4); }
-.btn-submit:hover::before { transform: translateX(100%); }
-.btn-submit:active { transform: translateY(0); }
-.btn-submit:disabled { opacity:.5; cursor:not-allowed; transform:none; }
-.submit-note {
-  margin-top: 14px; font-size: 13px; color: var(--grey3);
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
+.btn-sub:hover { background:var(--blue2); transform:translateY(-3px); box-shadow:0 14px 40px rgba(29,78,216,.45); }
+.btn-sub:hover::after { transform:translateX(100%); }
+.btn-sub:active { transform:translateY(0); }
+.btn-sub:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+.sub-note { margin-top:14px; font-size: clamp(12px,1.8vw,13px); color:var(--g3); display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; }
 
-/* ── STATUS ── */
+/* Status */
 #status-msg {
-  margin-top: 18px; font-size: 14px; padding: 12px 18px;
-  border-radius: 8px; display: none; font-weight: 500;
+  margin-top:16px; font-size: clamp(13px,2vw,15px); padding:12px 18px;
+  border-radius:8px; display:none; font-weight:500;
 }
 #status-msg.error { background:#fef2f2; color:var(--red); border:1.5px solid #fecaca; display:block; }
-#status-msg.info  { background:#eff6ff; color:var(--blue); border:1.5px solid #bfdbfe; display:block; }
+#status-msg.info  { background:var(--ice2); color:var(--blue); border:1.5px solid #bfdbfe; display:block; }
 
-/* ── SUCCESS ── */
+/* ── SUCCESS SCREEN ── */
 #success-screen {
-  display: none;
-  text-align: center;
-  padding: 80px 24px;
-  animation: fadeUp .5s ease;
+  display:none;
+  min-height: 80vh;
+  align-items:center; justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  padding: clamp(40px,8vw,80px) clamp(20px,5vw,40px);
+  animation: fadeUp .6s ease;
 }
+
+.confetti-wrap { font-size: clamp(28px,5vw,44px); margin-bottom:8px; animation: bounce 1s ease; letter-spacing:4px; }
+@keyframes bounce {
+  0%   { transform: scale(0) rotate(-20deg); opacity:0; }
+  60%  { transform: scale(1.15) rotate(5deg); opacity:1; }
+  80%  { transform: scale(.95); }
+  100% { transform: scale(1); }
+}
+
 .success-ring {
-  width: 96px; height: 96px;
-  border-radius: 50%;
+  width: clamp(80px,14vw,110px); height: clamp(80px,14vw,110px);
+  border-radius:50%;
   background: var(--navy);
   border: 3px solid var(--blue);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 28px;
-  font-size: 40px;
-  box-shadow: 0 0 0 8px rgba(26,79,214,.1), 0 12px 48px rgba(13,27,62,.25);
+  display:flex; align-items:center; justify-content:center;
+  margin: 0 auto clamp(20px,4vw,32px);
+  font-size: clamp(32px,6vw,48px);
+  box-shadow: 0 0 0 8px rgba(29,78,216,.12), 0 16px 48px rgba(0,0,0,.25);
+  animation: popIn .5s .3s cubic-bezier(.34,1.56,.64,1) both;
 }
-#success-screen h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px; color: var(--navy); margin-bottom: 12px;
+@keyframes popIn {
+  from { transform:scale(0); opacity:0; }
+  to   { transform:scale(1); opacity:1; }
 }
-#success-screen p { color: var(--grey3); font-size: 16px; max-width: 440px; margin: 0 auto; }
+
+.success-headline {
+  font-family:'Playfair Display',serif;
+  font-size: clamp(24px,5vw,40px); color:var(--navy); margin-bottom:8px;
+  animation: fadeUp .4s .5s ease both;
+}
+.success-sub {
+  font-size: clamp(15px,2.5vw,19px); color:var(--blue); font-weight:700;
+  margin-bottom:clamp(10px,2vw,14px);
+  animation: fadeUp .4s .6s ease both;
+}
+.success-msg {
+  font-size: clamp(14px,2vw,16px); color:#475569; line-height:1.75;
+  max-width:500px; margin:0 auto clamp(12px,3vw,20px);
+  animation: fadeUp .4s .7s ease both;
+}
+.success-fun {
+  background: var(--black); color:#93c5fd;
+  border-radius:12px; padding: clamp(14px,3vw,20px) clamp(16px,4vw,28px);
+  font-size: clamp(13px,2vw,15px); line-height:1.7;
+  max-width:480px; margin:0 auto clamp(16px,3vw,24px);
+  border:1px solid #1e3a5f;
+  animation: fadeUp .4s .8s ease both;
+}
+.success-fun strong { color:white; display:block; font-size: clamp(14px,2.5vw,17px); margin-bottom:6px; }
+
 .btn-csv {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--black); color: var(--white);
-  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
-  padding: 12px 26px; border: none; border-radius: 50px;
-  cursor: pointer; margin-top: 24px; text-decoration: none;
-  transition: all .18s;
-  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--navy); color:var(--white);
+  font-family:'Inter',sans-serif; font-size: clamp(13px,2vw,15px); font-weight:700;
+  padding: clamp(12px,2vw,15px) clamp(22px,4vw,32px);
+  border:none; border-radius:50px; cursor:pointer; text-decoration:none;
+  transition:all .2s; box-shadow:0 4px 20px rgba(0,0,0,.25);
+  -webkit-tap-highlight-color:transparent;
+  animation: fadeUp .4s .9s ease both;
 }
-.btn-csv:hover { background: var(--blue); transform: translateY(-2px); }
+.btn-csv:hover { background:var(--blue); transform:translateY(-2px); box-shadow:0 8px 28px rgba(29,78,216,.4); }
 
 /* ── FOOTER ── */
 footer {
-  background: var(--navy);
-  color: rgba(255,255,255,.4);
-  text-align: center;
-  padding: 28px 24px;
-  font-size: 13px; line-height: 1.7;
-  border-top: 1px solid rgba(255,255,255,.06);
+  background:var(--black);
+  color:rgba(255,255,255,.35);
+  text-align:center;
+  padding: clamp(20px,4vw,32px) clamp(16px,5vw,40px);
+  font-size: clamp(12px,1.8vw,13px); line-height:1.8;
+  border-top:1px solid #111;
 }
-footer strong { color: rgba(255,255,255,.7); }
+footer strong { color:rgba(255,255,255,.65); }
 
-@media (max-width:600px) {
-  .section-body { padding: 24px 18px; }
-  .options.grid2 { grid-template-columns: 1fr; }
-  .hero-inner { padding: 40px 18px 36px; }
-  .hero-stats { gap: 20px; }
-  .hero-stat { min-width: 100px; }
-  .objective-card { padding: 24px 22px; }
-  .researcher-card { flex-direction: column; text-align: center; }
+/* ── RESPONSIVE BREAKPOINTS ── */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .stats { grid-template-columns: repeat(2,1fr); gap: 16px 0; }
+  .stat:nth-child(2) { border-right: none; margin-right: 0; }
+  .stat:nth-child(3) { border-right: 1px solid rgba(255,255,255,.1); margin-right: 20px; }
+  .stat { padding-bottom: 8px; }
+  .r-card { flex-wrap: wrap; }
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .opts.g2 { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .stat:nth-child(odd)  { border-right:1px solid rgba(255,255,255,.1); margin-right:16px; }
+  .stat:nth-child(even) { border-right:none; margin-right:0; }
+  .pid { flex-wrap:wrap; }
+  .pid-note { margin-left:0; }
+  .ltbl { font-size: 13px; }
+  .ltbl thead th:first-child { min-width: 160px; }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .hero-inner, .main { max-width: 960px; }
+}
+
+/* Touch devices — bigger tap targets */
+@media (hover: none) {
+  .opt { padding: 16px 18px; }
+  .lr  { width: 26px; height: 26px; }
+}
+
+/* High DPI */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body { -webkit-font-smoothing: antialiased; }
 }
 </style>
 </head>
 <body>
 
 <div id="prog-wrap"><div id="prog-bar"></div></div>
+<div id="prog-label">0%</div>
 
 <!-- ══ HERO ══ -->
 <div class="hero">
+  <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-inner">
 
-    <div class="hero-top">
-      <span class="cihe-badge">CIHE Australia</span>
-      <span class="unit-badge">RES 901 · Semester 1, 2026</span>
+    <div class="hero-badges">
+      <span class="badge badge-outline">CIHE Australia</span>
+      <span class="badge badge-solid">RES 901 · Sem 1, 2026</span>
+      <span class="badge badge-green">🔒 100% Anonymous</span>
     </div>
 
-    <h1>Student Academic Experience<br><span>Survey 2026</span></h1>
-    <p class="hero-sub">A quantitative investigation into study hours, academic satisfaction, and student wellbeing among CIHE Australia undergraduate students.</p>
+    <h1>Student Academic<br><em>Experience Survey</em> 2026</h1>
+    <p class="hero-sub">A quantitative study exploring how study hours relate to academic satisfaction, stress, and wellbeing among CIHE Australia students.</p>
 
-    <div class="researcher-card">
-      <div class="researcher-avatar">RB</div>
-      <div class="researcher-info">
-        <div class="researcher-name">Raj Kumar Bhattrai</div>
-        <div class="researcher-role">Principal Researcher · Master of Research · RES 901</div>
+    <div class="r-card">
+      <div class="r-avatar">RB</div>
+      <div>
+        <div class="r-name">Raj Kumar Bhattrai</div>
+        <div class="r-role">Principal Researcher &nbsp;·&nbsp; Master of Research &nbsp;·&nbsp; RES 901</div>
       </div>
     </div>
 
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="stat-val">18</div>
-        <div class="stat-lbl">Questions</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-val">~5</div>
-        <div class="stat-lbl">Minutes</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-val">100%</div>
-        <div class="stat-lbl">Anonymous</div>
-      </div>
-      <div class="hero-stat">
-        <div class="stat-val">30</div>
-        <div class="stat-lbl">Participants Needed</div>
-      </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-v">18</div><div class="stat-l">Questions</div></div>
+      <div class="stat"><div class="stat-v">~5</div><div class="stat-l">Minutes</div></div>
+      <div class="stat"><div class="stat-v">100%</div><div class="stat-l">Anonymous</div></div>
+      <div class="stat"><div class="stat-v">30</div><div class="stat-l">Participants</div></div>
     </div>
 
   </div>
@@ -567,96 +571,94 @@ footer strong { color: rgba(255,255,255,.7); }
 <!-- ══ MAIN ══ -->
 <div class="main">
 
-  <!-- Success (hidden) -->
+  <!-- Success screen (hidden) -->
   <div id="success-screen">
+    <div class="confetti-wrap">🎉 🎊 🥳</div>
     <div class="success-ring">✓</div>
-    <h2>Thank You!</h2>
-    <p>Your response has been recorded successfully and will contribute to improving the student experience at CIHE Australia.</p>
-    <a href="#" class="btn-csv" id="download-own-csv">⬇ &nbsp;Download My Response (CSV)</a>
+    <h2 class="success-headline">You're a Legend!</h2>
+    <p class="success-sub">Response submitted successfully ✅</p>
+    <p class="success-msg">Your data has been recorded in the research database and will help shape real recommendations for CIHE students.</p>
+    <div class="success-fun">
+      <strong>🔬 Fun fact about what just happened:</strong>
+      You just contributed to science. Actual science. Your 5 minutes of clicking radio buttons will be transformed into correlation coefficients, ANOVA tables, and at least three sentences of peer-reviewed-ish academic prose. Somewhere, a researcher named Raj is very happy right now. 🙏<br><br>
+      <em style="color:#60a5fa">May your GPA be high and your stress be low.</em> 📚✨
+    </div>
+    <a href="#" class="btn-csv" id="dl-csv">⬇ &nbsp;Download My Response (CSV)</a>
   </div>
 
-  <div id="survey-form">
+  <div id="form-wrap">
 
-    <!-- Research Objective -->
-    <div class="objective-card">
-      <div class="card-eyebrow">Research Objective</div>
-      <h2>Why This Study Matters</h2>
-      <p>This survey is part of a quantitative research study investigating the relationship between self-reported weekly study hours and two key student outcomes — <strong>academic satisfaction</strong> and <strong>perceived stress</strong> — among undergraduate students at CIHE Australia.</p>
-      <p>The findings will help identify patterns in student engagement and wellbeing, with the goal of informing evidence-based institutional policies and support programmes. Results will be presented anonymously in an academic research report as part of the RES 901 unit assessment.</p>
-      <p><strong>Your honest responses are invaluable.</strong> The survey takes approximately 5 minutes to complete. All data is collected anonymously — your participant ID is auto-generated and cannot be traced back to you.</p>
+    <!-- Objective -->
+    <div class="card obj-card card-fade" style="animation-delay:.05s">
+      <div class="eyebrow">Research Objective</div>
+      <h2>Why This Survey Matters</h2>
+      <p>This survey is part of a quantitative research study investigating the relationship between self-reported weekly study hours and two key outcomes — <strong>academic satisfaction</strong> and <strong>perceived stress</strong> — among undergraduate students at CIHE Australia.</p>
+      <p>Findings will be used to develop evidence-based recommendations for institutional policy and student support programmes. Results are presented in aggregate and anonymously as part of the RES 901 capstone assessment.</p>
+      <p><strong>Your honest responses matter.</strong> There are no right or wrong answers — only your real experience counts. The survey takes around 5 minutes.</p>
     </div>
 
-    <!-- Informed Consent -->
-    <div class="consent-card">
+    <!-- Consent -->
+    <div class="consent-card card-fade" style="animation-delay:.08s">
       <div class="consent-icon">📋</div>
       <div>
         <h3>Informed Consent</h3>
-        <p>By completing and submitting this survey, you confirm that: (1) you are a current CIHE Australia student; (2) you understand your participation is entirely voluntary and you may stop at any time; (3) your responses are anonymous and no personally identifiable information is collected; and (4) your data will be used solely for academic research purposes within this unit. This study adheres to the CIHE Australia Research Ethics Guidelines and the Australian National Statement on Ethical Conduct in Human Research (NHMRC, 2023).</p>
+        <p>By completing this survey you confirm that: you are a current CIHE Australia student; participation is voluntary and you may stop at any time; your responses are fully anonymous; and data will be used solely for academic research purposes. This study adheres to the CIHE Australia Research Ethics Guidelines and the NHMRC National Statement on Ethical Conduct in Human Research (2023).</p>
       </div>
     </div>
 
-    <!-- Participant ID -->
-    <div class="pid-strip">
+    <!-- PID -->
+    <div class="pid card-fade" style="animation-delay:.1s">
       <div class="pid-dot"></div>
       <div>
-        <div class="pid-label">Your Anonymous Participant ID</div>
-        <div class="pid-code" id="pid-display">Generating…</div>
+        <div class="pid-lbl">Your Anonymous Participant ID</div>
+        <div class="pid-val" id="pid-display">Generating…</div>
       </div>
-      <div class="pid-note">🔒 Auto-generated · Not linked to your identity</div>
+      <div class="pid-note">🔒 Auto-generated · Cannot be traced to you</div>
     </div>
 
     <form id="the-form" novalidate>
 
-      <!-- ══ SECTION A ══ -->
-      <div class="section-card" style="animation-delay:.05s">
-        <div class="section-header">
-          <div class="section-letter">A</div>
-          <div class="section-title-wrap">
-            <h3>About You</h3>
-            <p>Basic demographic information to contextualise findings.</p>
-          </div>
+      <!-- A -->
+      <div class="card card-fade" style="animation-delay:.12s">
+        <div class="sec-head">
+          <div class="sec-letter">A</div>
+          <div><h3>About You</h3><p>Basic demographics to help contextualise the findings.</p></div>
         </div>
-        <div class="section-body">
+        <div class="sec-body">
 
-          <div class="question">
-            <div class="q-label"><span class="q-num">1</span>What is your gender?<span class="required">*</span></div>
-            <div class="options grid2">
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">1</span>What is your gender?<span class="req">*</span></div>
+            <div class="opts g2">
               <label class="opt"><input type="radio" name="q1_gender" value="Female" required> Female</label>
               <label class="opt"><input type="radio" name="q1_gender" value="Male"> Male</label>
               <label class="opt"><input type="radio" name="q1_gender" value="Non-binary/Gender diverse"> Non-binary / Gender diverse</label>
               <label class="opt"><input type="radio" name="q1_gender" value="Prefer not to say"> Prefer not to say</label>
             </div>
           </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">2</span>What is your age group?<span class="required">*</span></div>
-            <div class="options grid2">
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">2</span>What is your age group?<span class="req">*</span></div>
+            <div class="opts g2">
               <label class="opt"><input type="radio" name="q2_age" value="18-22 years" required> 18–22 years</label>
               <label class="opt"><input type="radio" name="q2_age" value="23-27 years"> 23–27 years</label>
               <label class="opt"><input type="radio" name="q2_age" value="28-32 years"> 28–32 years</label>
               <label class="opt"><input type="radio" name="q2_age" value="33+ years"> 33+ years</label>
             </div>
           </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">3</span>What year of study are you currently in?<span class="required">*</span></div>
-            <div class="options grid2">
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">3</span>What year of study are you in?<span class="req">*</span></div>
+            <div class="opts g2">
               <label class="opt"><input type="radio" name="q3_year" value="Year 1" required> Year 1</label>
               <label class="opt"><input type="radio" name="q3_year" value="Year 2"> Year 2</label>
               <label class="opt"><input type="radio" name="q3_year" value="Year 3"> Year 3</label>
               <label class="opt"><input type="radio" name="q3_year" value="Other"> Other</label>
             </div>
           </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">4</span>What is your faculty / area of study?<span class="required">*</span></div>
-            <div class="options">
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">4</span>What is your faculty / area of study?<span class="req">*</span></div>
+            <div class="opts">
               <label class="opt"><input type="radio" name="q4_faculty" value="Business" required> Business</label>
               <label class="opt"><input type="radio" name="q4_faculty" value="Information Technology"> Information Technology</label>
               <label class="opt"><input type="radio" name="q4_faculty" value="Health Sciences"> Health Sciences</label>
@@ -668,20 +670,17 @@ footer strong { color: rgba(255,255,255,.7); }
         </div>
       </div>
 
-      <!-- ══ SECTION B ══ -->
-      <div class="section-card" style="animation-delay:.1s">
-        <div class="section-header">
-          <div class="section-letter">B</div>
-          <div class="section-title-wrap">
-            <h3>Study Behaviour</h3>
-            <p>How you engage with your studies outside of scheduled classes.</p>
-          </div>
+      <!-- B -->
+      <div class="card card-fade" style="animation-delay:.16s">
+        <div class="sec-head">
+          <div class="sec-letter">B</div>
+          <div><h3>Study Behaviour</h3><p>How you engage with study outside of class.</p></div>
         </div>
-        <div class="section-body">
+        <div class="sec-body">
 
-          <div class="question">
-            <div class="q-label"><span class="q-num">5</span>On average, how many hours per week do you spend studying (excluding scheduled classes)?<span class="required">*</span></div>
-            <div class="options">
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">5</span>How many hours per week do you study (outside of scheduled classes)?<span class="req">*</span></div>
+            <div class="opts">
               <label class="opt"><input type="radio" name="q5_hours" value="Less than 5" required> Fewer than 5 hours</label>
               <label class="opt"><input type="radio" name="q5_hours" value="5-9"> 5–9 hours</label>
               <label class="opt"><input type="radio" name="q5_hours" value="10-14"> 10–14 hours</label>
@@ -689,296 +688,206 @@ footer strong { color: rgba(255,255,255,.7); }
               <label class="opt"><input type="radio" name="q5_hours" value="20+"> 20+ hours</label>
             </div>
           </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">6</span>Where do you do most of your studying?<span class="required">*</span></div>
-            <div class="options">
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">6</span>Where do you do most of your studying?<span class="req">*</span></div>
+            <div class="opts">
               <label class="opt"><input type="radio" name="q6_location" value="On campus" required> On campus (library / study rooms)</label>
               <label class="opt"><input type="radio" name="q6_location" value="At home"> At home</label>
               <label class="opt"><input type="radio" name="q6_location" value="Combination"> A combination of both</label>
               <label class="opt"><input type="radio" name="q6_location" value="Cafe/public"> Café or public space</label>
             </div>
           </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">7</span>What is the biggest barrier to your studying? <em style="font-weight:400;color:var(--grey3)">(Select one)</em><span class="required">*</span></div>
-            <div class="options">
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">7</span>What is your biggest barrier to studying? <em style="font-weight:400;color:var(--g3)">(Select one)</em><span class="req">*</span></div>
+            <div class="opts">
               <label class="opt"><input type="radio" name="q7_barrier" value="Work commitments" required> Work commitments</label>
               <label class="opt"><input type="radio" name="q7_barrier" value="Financial pressure"> Financial pressure</label>
               <label class="opt"><input type="radio" name="q7_barrier" value="Family responsibilities"> Family responsibilities</label>
               <label class="opt"><input type="radio" name="q7_barrier" value="Transport/access"> Transport / access issues</label>
-              <label class="opt"><input type="radio" name="q7_barrier" value="Lack of resources"> Lack of study resources or materials</label>
-              <label class="opt"><input type="radio" name="q7_barrier" value="None"> None — I have no significant barriers</label>
+              <label class="opt"><input type="radio" name="q7_barrier" value="Lack of resources"> Lack of study resources</label>
+              <label class="opt"><input type="radio" name="q7_barrier" value="None"> No significant barriers</label>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- ══ SECTION C ══ -->
-      <div class="section-card" style="animation-delay:.15s">
-        <div class="section-header">
-          <div class="section-letter">C</div>
-          <div class="section-title-wrap">
-            <h3>Academic Satisfaction &amp; Stress</h3>
-            <p>Rate each item: 1 = Very Low &nbsp;·&nbsp; 3 = Moderate &nbsp;·&nbsp; 5 = Very High</p>
-          </div>
+      <!-- C -->
+      <div class="card card-fade" style="animation-delay:.2s">
+        <div class="sec-head">
+          <div class="sec-letter">C</div>
+          <div><h3>Satisfaction &amp; Stress</h3><p>Rate each item: 1 = Very Low &nbsp;·&nbsp; 5 = Very High</p></div>
         </div>
-        <div class="section-body">
-
+        <div class="sec-body">
           <div class="likert-scroll">
-            <table class="likert-tbl">
-              <thead>
-                <tr>
-                  <th style="width:52%">Question</th>
-                  <th>1<br><span style="font-weight:400;font-size:11px;opacity:.65">Very Low</span></th>
-                  <th>2</th>
-                  <th>3<br><span style="font-weight:400;font-size:11px;opacity:.65">Moderate</span></th>
-                  <th>4</th>
-                  <th>5<br><span style="font-weight:400;font-size:11px;opacity:.65">Very High</span></th>
-                </tr>
-              </thead>
+            <table class="ltbl">
+              <thead><tr>
+                <th>Question</th>
+                <th>1<br><span style="font-weight:400;font-size:10px;opacity:.6">Very Low</span></th>
+                <th>2</th><th>3<br><span style="font-weight:400;font-size:10px;opacity:.6">Mid</span></th><th>4</th>
+                <th>5<br><span style="font-weight:400;font-size:10px;opacity:.6">Very High</span></th>
+              </tr></thead>
               <tbody>
-                <tr>
-                  <td><strong>Q8</strong> Overall satisfaction with your academic experience at CIHE<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q9</strong> Satisfaction with your own academic performance<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q10</strong> How supported you feel by lecturers and the institution<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q10_support" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q10_support" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q10_support" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q10_support" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q10_support" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q11</strong> How manageable you find your current workload<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q11_workload" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q11_workload" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q11_workload" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q11_workload" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q11_workload" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q12</strong> How stressed you feel about your academic commitments<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q12_stress" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q12_stress" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q12_stress" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q12_stress" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q12_stress" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q13</strong> Extent to which academic stress affects your daily life<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="5"></td>
-                </tr>
+                <tr><td><strong>Q8</strong>Overall satisfaction with your experience at CIHE<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q8_overall_sat" value="1" required></td><td><input class="lr" type="radio" name="q8_overall_sat" value="2"></td><td><input class="lr" type="radio" name="q8_overall_sat" value="3"></td><td><input class="lr" type="radio" name="q8_overall_sat" value="4"></td><td><input class="lr" type="radio" name="q8_overall_sat" value="5"></td></tr>
+                <tr><td><strong>Q9</strong>Satisfaction with your own academic performance<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q9_perf_sat" value="1" required></td><td><input class="lr" type="radio" name="q9_perf_sat" value="2"></td><td><input class="lr" type="radio" name="q9_perf_sat" value="3"></td><td><input class="lr" type="radio" name="q9_perf_sat" value="4"></td><td><input class="lr" type="radio" name="q9_perf_sat" value="5"></td></tr>
+                <tr><td><strong>Q10</strong>How supported you feel by lecturers &amp; institution<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q10_support" value="1" required></td><td><input class="lr" type="radio" name="q10_support" value="2"></td><td><input class="lr" type="radio" name="q10_support" value="3"></td><td><input class="lr" type="radio" name="q10_support" value="4"></td><td><input class="lr" type="radio" name="q10_support" value="5"></td></tr>
+                <tr><td><strong>Q11</strong>How manageable your current workload feels<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q11_workload" value="1" required></td><td><input class="lr" type="radio" name="q11_workload" value="2"></td><td><input class="lr" type="radio" name="q11_workload" value="3"></td><td><input class="lr" type="radio" name="q11_workload" value="4"></td><td><input class="lr" type="radio" name="q11_workload" value="5"></td></tr>
+                <tr><td><strong>Q12</strong>How stressed you feel about academic commitments<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q12_stress" value="1" required></td><td><input class="lr" type="radio" name="q12_stress" value="2"></td><td><input class="lr" type="radio" name="q12_stress" value="3"></td><td><input class="lr" type="radio" name="q12_stress" value="4"></td><td><input class="lr" type="radio" name="q12_stress" value="5"></td></tr>
+                <tr><td><strong>Q13</strong>Extent academic stress affects your daily life<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q13_stress_impact" value="1" required></td><td><input class="lr" type="radio" name="q13_stress_impact" value="2"></td><td><input class="lr" type="radio" name="q13_stress_impact" value="3"></td><td><input class="lr" type="radio" name="q13_stress_impact" value="4"></td><td><input class="lr" type="radio" name="q13_stress_impact" value="5"></td></tr>
               </tbody>
             </table>
           </div>
-          <div class="likert-scale-strip">
-            <span>← Very Low / Strongly Dissatisfied</span>
-            <span>Very High / Strongly Satisfied →</span>
-          </div>
-
+          <div class="scale-strip"><span>← Very Low / Dissatisfied</span><span>Very High / Satisfied →</span></div>
         </div>
       </div>
 
-      <!-- ══ SECTION D ══ -->
-      <div class="section-card" style="animation-delay:.2s">
-        <div class="section-header">
-          <div class="section-letter">D</div>
-          <div class="section-title-wrap">
-            <h3>Wellbeing Indicators</h3>
-            <p>Same 1–5 scale. Be honest — there are no right or wrong answers.</p>
-          </div>
+      <!-- D -->
+      <div class="card card-fade" style="animation-delay:.24s">
+        <div class="sec-head">
+          <div class="sec-letter">D</div>
+          <div><h3>Wellbeing Indicators</h3><p>Same 1–5 scale. No right or wrong answers.</p></div>
         </div>
-        <div class="section-body">
-
+        <div class="sec-body">
           <div class="likert-scroll">
-            <table class="likert-tbl">
-              <thead>
-                <tr>
-                  <th style="width:52%">Question</th>
-                  <th>1<br><span style="font-weight:400;font-size:11px;opacity:.65">Very Low</span></th>
-                  <th>2</th>
-                  <th>3<br><span style="font-weight:400;font-size:11px;opacity:.65">Moderate</span></th>
-                  <th>4</th>
-                  <th>5<br><span style="font-weight:400;font-size:11px;opacity:.65">Very High</span></th>
-                </tr>
-              </thead>
+            <table class="ltbl">
+              <thead><tr>
+                <th>Question</th>
+                <th>1<br><span style="font-weight:400;font-size:10px;opacity:.6">Very Low</span></th>
+                <th>2</th><th>3<br><span style="font-weight:400;font-size:10px;opacity:.6">Mid</span></th><th>4</th>
+                <th>5<br><span style="font-weight:400;font-size:10px;opacity:.6">Very High</span></th>
+              </tr></thead>
               <tbody>
-                <tr>
-                  <td><strong>Q14</strong> Your sense of belonging to the CIHE student community<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q14_belonging" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q14_belonging" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q14_belonging" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q14_belonging" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q14_belonging" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q15</strong> Confidence in your academic abilities<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q15_confidence" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q15_confidence" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q15_confidence" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q15_confidence" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q15_confidence" value="5"></td>
-                </tr>
-                <tr>
-                  <td><strong>Q16</strong> How well you balance study and personal life<span class="required">*</span></td>
-                  <td><input class="likert-radio" type="radio" name="q16_balance" value="1" required></td>
-                  <td><input class="likert-radio" type="radio" name="q16_balance" value="2"></td>
-                  <td><input class="likert-radio" type="radio" name="q16_balance" value="3"></td>
-                  <td><input class="likert-radio" type="radio" name="q16_balance" value="4"></td>
-                  <td><input class="likert-radio" type="radio" name="q16_balance" value="5"></td>
-                </tr>
+                <tr><td><strong>Q14</strong>Sense of belonging to the CIHE student community<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q14_belonging" value="1" required></td><td><input class="lr" type="radio" name="q14_belonging" value="2"></td><td><input class="lr" type="radio" name="q14_belonging" value="3"></td><td><input class="lr" type="radio" name="q14_belonging" value="4"></td><td><input class="lr" type="radio" name="q14_belonging" value="5"></td></tr>
+                <tr><td><strong>Q15</strong>Confidence in your own academic abilities<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q15_confidence" value="1" required></td><td><input class="lr" type="radio" name="q15_confidence" value="2"></td><td><input class="lr" type="radio" name="q15_confidence" value="3"></td><td><input class="lr" type="radio" name="q15_confidence" value="4"></td><td><input class="lr" type="radio" name="q15_confidence" value="5"></td></tr>
+                <tr><td><strong>Q16</strong>How well you balance study and personal life<span class="req">*</span></td>
+                  <td><input class="lr" type="radio" name="q16_balance" value="1" required></td><td><input class="lr" type="radio" name="q16_balance" value="2"></td><td><input class="lr" type="radio" name="q16_balance" value="3"></td><td><input class="lr" type="radio" name="q16_balance" value="4"></td><td><input class="lr" type="radio" name="q16_balance" value="5"></td></tr>
               </tbody>
             </table>
           </div>
-          <div class="likert-scale-strip">
-            <span>← Very Low</span>
-            <span>Very High →</span>
-          </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">17</span>On average, how many hours of sleep do you get on a typical weeknight?<span class="required">*</span></div>
-            <div class="options grid2">
-              <label class="opt"><input type="radio" name="q17_sleep" value="Less than 5hrs" required> Less than 5 hours</label>
+          <div class="scale-strip"><span>← Very Low</span><span>Very High →</span></div>
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">17</span>How many hours of sleep on a typical weeknight?<span class="req">*</span></div>
+            <div class="opts g2">
+              <label class="opt"><input type="radio" name="q17_sleep" value="Less than 5hrs" required> Less than 5 hrs</label>
               <label class="opt"><input type="radio" name="q17_sleep" value="5-6hrs"> 5–6 hours</label>
               <label class="opt"><input type="radio" name="q17_sleep" value="7-8hrs"> 7–8 hours</label>
-              <label class="opt"><input type="radio" name="q17_sleep" value="More than 8hrs"> More than 8 hours</label>
+              <label class="opt"><input type="radio" name="q17_sleep" value="More than 8hrs"> More than 8 hrs</label>
             </div>
           </div>
-
-          <div class="q-divider"></div>
-
-          <div class="question">
-            <div class="q-label"><span class="q-num">18</span>Is there anything else you'd like to share about your academic experience? <em style="font-weight:400;color:var(--grey3)">(Optional)</em></div>
-            <textarea name="q18_comments" placeholder="Share any thoughts, challenges, or suggestions you have…"></textarea>
+          <div class="div"></div>
+          <div class="q">
+            <div class="q-lbl"><span class="q-num">18</span>Any other thoughts about your experience at CIHE? <em style="font-weight:400;color:var(--g3)">(Optional)</em></div>
+            <textarea name="q18_comments" placeholder="Feel free to share any thoughts, challenges, or suggestions…"></textarea>
           </div>
-
         </div>
       </div>
 
       <!-- Submit -->
-      <div class="submit-area">
-        <button type="submit" class="btn-submit" id="submit-btn">
-          <span id="submit-icon">→</span>
-          <span id="submit-text">Submit My Response</span>
+      <div class="sub-area">
+        <button type="submit" class="btn-sub" id="submit-btn">
+          <span id="s-icon">→</span>
+          <span id="s-text">Submit My Response</span>
         </button>
         <div id="status-msg"></div>
-        <p class="submit-note">🔒 Anonymous &nbsp;·&nbsp; Encrypted in transit &nbsp;·&nbsp; Saved to Google Sheets &amp; CSV</p>
+        <p class="sub-note">🔒 Anonymous &nbsp;·&nbsp; Encrypted in transit &nbsp;·&nbsp; Saved to Google Sheets + CSV</p>
       </div>
 
     </form>
-  </div>
+  </div><!-- #form-wrap -->
 
 </div><!-- .main -->
 
 <footer>
   <strong>Raj Kumar Bhattrai</strong> &nbsp;·&nbsp; Principal Researcher<br>
   RES 901: Quantitative Research Methods &nbsp;·&nbsp; Master of Research &nbsp;·&nbsp; CIHE Australia &nbsp;·&nbsp; Semester 1, 2026<br>
-  All responses are anonymous and used solely for academic research purposes.
+  All responses are anonymous and used solely for academic research.
 </footer>
 
 <script>
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbza3GyQd8panUSy9if1229Qpv9eRX3SGN2MmiuK5yHLFoleuSSq5BUz6mPrILTWwsWy/exec";
 
-// Participant ID
+// ── PID
 function genPID() {
   const c = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let id = 'P';
   for (let i=0;i<7;i++) id += c[Math.floor(Math.random()*c.length)];
   return id;
 }
-const participantID = genPID();
-document.getElementById('pid-display').textContent = participantID;
+const PID = genPID();
+document.getElementById('pid-display').textContent = PID;
 
-// Progress bar
-function updateProgress() {
+// ── Progress
+const progBar   = document.getElementById('prog-bar');
+const progLabel = document.getElementById('prog-label');
+function updateProg() {
   const names = [...new Set([...document.querySelectorAll('[required]')].map(e=>e.name))];
   const done  = names.filter(n=>[...document.querySelectorAll(`[name="${n}"]`)].some(e=>e.checked));
-  document.getElementById('prog-bar').style.width = (done.length/names.length*100)+'%';
+  const pct   = Math.round(done.length / names.length * 100);
+  progBar.style.width = pct + '%';
+  progLabel.textContent = pct + '%';
+  progLabel.classList.toggle('show', pct > 0 && pct < 100);
 }
-document.getElementById('the-form').addEventListener('change', updateProgress);
-updateProgress();
+document.getElementById('the-form').addEventListener('change', updateProg);
+updateProg();
 
-// Collect
-function collectData() {
+// ── Collect
+const COLS = ['participant_id','timestamp','q1_gender','q2_age','q3_year','q4_faculty','q5_hours','q6_location','q7_barrier','q8_overall_sat','q9_perf_sat','q10_support','q11_workload','q12_stress','q13_stress_impact','q14_belonging','q15_confidence','q16_balance','q17_sleep','q18_comments'];
+function collect() {
   const fd = new FormData(document.getElementById('the-form'));
-  const d  = { participant_id: participantID, timestamp: new Date().toISOString() };
+  const d  = { participant_id: PID, timestamp: new Date().toISOString() };
   for (const [k,v] of fd.entries()) d[k]=v;
   return d;
 }
 
-// CSV
-const HEADERS = [
-  'participant_id','timestamp',
-  'q1_gender','q2_age','q3_year','q4_faculty',
-  'q5_hours','q6_location','q7_barrier',
-  'q8_overall_sat','q9_perf_sat','q10_support','q11_workload','q12_stress','q13_stress_impact',
-  'q14_belonging','q15_confidence','q16_balance',
-  'q17_sleep','q18_comments'
-];
-function downloadCSV(data) {
-  const row  = HEADERS.map(h=>'"'+(data[h]||'').replace(/"/g,'""')+'"').join(',');
-  const blob = new Blob([HEADERS.join(',')+'\n'+row],{type:'text/csv'});
-  const a    = Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`CIHE_Survey_${participantID}.csv`});
+// ── CSV
+function dlCSV(data) {
+  const row  = COLS.map(h=>'"'+(String(data[h]||'')).replace(/"/g,'""')+'"').join(',');
+  const blob = new Blob([COLS.join(',')+'\n'+row],{type:'text/csv'});
+  const a    = Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`CIHE_Survey_${PID}.csv`});
   a.click(); URL.revokeObjectURL(a.href);
 }
 
-// Validate
+// ── Validate
 function validate() {
   const names = [...new Set([...document.querySelectorAll('[required]')].map(e=>e.name))];
   for (const n of names) {
     if (![...document.querySelectorAll(`[name="${n}"]`)].some(e=>e.checked)) {
       const el = document.querySelector(`[name="${n}"]`);
-      const block = el.closest('.question') || el.closest('tr');
-      if (block) block.scrollIntoView({behavior:'smooth',block:'center'});
+      const block = el.closest('.q') || el.closest('tr');
+      if (block) { block.scrollIntoView({behavior:'smooth',block:'center'}); block.style.outline='2px solid #dc2626'; setTimeout(()=>block.style.outline='',2000); }
       return false;
     }
   }
   return true;
 }
 
-// Status
-function showStatus(msg,type='info') {
-  const el=document.getElementById('status-msg');
-  el.textContent=msg; el.className=type;
-}
-
-// Submit
+// ── Submit
 document.getElementById('the-form').addEventListener('submit', async function(e) {
   e.preventDefault();
-  if (!validate()) { showStatus('⚠️  Please answer all required questions before submitting.','error'); return; }
+  if (!validate()) {
+    const msg = document.getElementById('status-msg');
+    msg.textContent = '⚠️  Please answer all required questions before submitting.';
+    msg.className = 'error';
+    return;
+  }
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  document.getElementById('s-icon').textContent = '⏳';
+  document.getElementById('s-text').textContent = 'Submitting…';
+  document.getElementById('status-msg').className = '';
 
-  const btn=document.getElementById('submit-btn');
-  btn.disabled=true;
-  document.getElementById('submit-icon').textContent='⏳';
-  document.getElementById('submit-text').textContent='Submitting…';
-  document.getElementById('status-msg').className='';
-
-  const data = collectData();
+  const data = collect();
 
   try {
     await fetch(GOOGLE_SCRIPT_URL, {
@@ -986,16 +895,18 @@ document.getElementById('the-form').addEventListener('submit', async function(e)
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify(data)
     });
-  } catch(err) { console.warn('Sheets error:', err); }
+  } catch(err) { console.warn('Sheets:', err); }
 
   // Show success
-  document.getElementById('survey-form').style.display='none';
+  document.getElementById('form-wrap').style.display = 'none';
   const s = document.getElementById('success-screen');
-  s.style.display='block';
-  document.getElementById('prog-bar').style.width='100%';
+  s.style.display = 'flex';
+  progBar.style.width = '100%';
+  progLabel.classList.remove('show');
   window.scrollTo({top:0,behavior:'smooth'});
-  document.getElementById('download-own-csv').onclick = function(e){
-    e.preventDefault(); downloadCSV(data);
+
+  document.getElementById('dl-csv').onclick = function(ev) {
+    ev.preventDefault(); dlCSV(data);
   };
 });
 </script>
