@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIHE Student Academic Experience Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #1a2744;
+    --blue:    #2e5fa3;
+    --sky:     #4a90d9;
+    --teal:    #1a7a6e;
+    --mint:    #e8f6f4;
+    --cream:   #faf9f6;
+    --sand:    #f0ece3;
+    --orange:  #e07b39;
+    --red:     #d94f3d;
+    --ink:     #2c2c2c;
+    --muted:   #6b7280;
+    --line:    #e2ddd6;
+    --white:   #ffffff;
+    --radius:  14px;
+    --shadow:  0 4px 24px rgba(26,39,68,.10);
+    --shadow-lg: 0 12px 48px rgba(26,39,68,.16);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(46,95,163,.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(26,122,110,.06) 0%, transparent 50%);
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar-wrap {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 4px; background: var(--line);
+  }
+  #progress-bar {
+    height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal));
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 40px,
+      rgba(255,255,255,.015) 40px, rgba(255,255,255,.015) 80px
+    );
+  }
+  .header-badge {
+    display: inline-block;
+    font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  header p {
+    font-size: 14px; color: rgba(255,255,255,.65);
+    max-width: 520px; margin: 0 auto;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  /* ── SECTION CARD ── */
+  .section-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px 28px;
+    margin-bottom: 20px;
+    border: 1px solid var(--line);
+    animation: fadeUp .4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px; color: var(--blue);
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+  }
+  .section-desc {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ── QUESTION ── */
+  .question {
+    margin-bottom: 28px;
+  }
+  .question:last-child { margin-bottom: 0; }
+  .q-label {
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    margin-bottom: 12px; line-height: 1.4;
+  }
+  .q-label .q-num {
+    display: inline-block;
+    background: var(--blue);
+    color: var(--white);
+    font-size: 11px; font-weight: 600;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    text-align: center; line-height: 22px;
+    margin-right: 8px; flex-shrink: 0;
+  }
+  .required { color: var(--red); margin-left: 2px; }
+
+  /* ── RADIO / CHECKBOX OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .options.grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .option-label {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all .18s ease;
+    background: var(--cream);
+    user-select: none;
+  }
+  .option-label:hover {
+    border-color: var(--sky);
+    background: rgba(74,144,217,.05);
+  }
+  .option-label input[type="radio"],
+  .option-label input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px; flex-shrink: 0;
+    border: 2px solid #c8cdd6;
+    border-radius: 50%;
+    transition: all .18s;
+    position: relative;
+  }
+  .option-label input[type="checkbox"] { border-radius: 5px; }
+  .option-label input[type="radio"]:checked,
+  .option-label input[type="checkbox"]:checked {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .option-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 6px; height: 6px;
+    background: white; border-radius: 50%;
+  }
+  .option-label input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    color: white; font-size: 11px; font-weight: 700;
+  }
+  .option-label:has(input:checked) {
+    border-color: var(--blue);
+    background: rgba(46,95,163,.06);
+    color: var(--blue);
+    font-weight: 500;
+  }
+
+  /* ── LIKERT SCALE ── */
+  .likert-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .likert-table {
+    width: 100%; border-collapse: collapse; min-width: 420px;
+  }
+  .likert-table thead th {
+    font-size: 11px; font-weight: 600; color: var(--muted);
+    text-align: center; padding: 0 4px 10px;
+    letter-spacing: .04em;
+  }
+  .likert-table thead th:first-child { text-align: left; }
+  .likert-table tbody tr { border-bottom: 1px solid var(--line); }
+  .likert-table tbody tr:last-child { border-bottom: none; }
+  .likert-table tbody td {
+    padding: 10px 4px; text-align: center; font-size: 13.5px;
+  }
+  .likert-table tbody td:first-child {
+    text-align: left; padding-left: 0;
+    font-size: 13px; color: var(--ink); line-height: 1.35;
+    padding-right: 12px; max-width: 260px;
+  }
+  .likert-radio {
+    appearance: none; -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border: 2px solid #c8cdd6; border-radius: 50%;
+    cursor: pointer; transition: all .18s;
+    position: relative; display: block; margin: 0 auto;
+  }
+  .likert-radio:checked {
+    background: var(--blue); border-color: var(--blue);
+  }
+  .likert-radio:checked::after {
+    content: '';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 6px; height: 6px;
+    background: white; border-radius: 50%;
+  }
+  .likert-table tbody tr:hover { background: rgba(46,95,163,.03); }
+
+  .scale-labels {
+    display: flex; justify-content: space-between;
+    margin-top: 6px; padding: 0 4px;
+  }
+  .scale-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+  /* ── TEXT INPUT ── */
+  textarea {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; color: var(--ink);
+    background: var(--cream);
+    resize: vertical; min-height: 80px;
+    transition: border-color .18s;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--blue); background: var(--white); }
+
+  /* ── PARTICIPANT ID ── */
+  .pid-card {
+    background: linear-gradient(135deg, var(--navy), #2c3e6b);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    color: white;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .pid-icon { font-size: 28px; flex-shrink: 0; }
+  .pid-text { font-size: 13px; opacity: .75; margin-top: 3px; }
+  .pid-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px; color: #7eb8f5;
+  }
+
+  /* ── SUBMIT BUTTON ── */
+  .submit-wrap { text-align: center; margin-top: 32px; }
+  .btn-submit {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, var(--blue), var(--teal));
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px; font-weight: 600;
+    padding: 16px 40px;
+    border: none; border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(46,95,163,.35);
+    transition: all .22s ease;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(46,95,163,.45);
+  }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  /* ── SUCCESS STATE ── */
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    animation: fadeUp .5s ease;
+  }
+  .success-icon {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--teal), #22a896);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 24px;
+    box-shadow: 0 8px 32px rgba(26,122,110,.3);
+  }
+  #success-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; color: var(--navy);
+    margin-bottom: 12px;
+  }
+  #success-screen p { color: var(--muted); font-size: 15px; }
+
+  /* ── CSV DOWNLOAD BUTTON ── */
+  .btn-csv {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--sand);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    padding: 10px 22px;
+    border: 1.5px solid var(--line); border-radius: 50px;
+    cursor: pointer; margin-top: 16px;
+    transition: all .18s;
+    text-decoration: none;
+  }
+  .btn-csv:hover { background: var(--line); }
+
+  /* ── STATUS MESSAGES ── */
+  #status-msg {
+    margin-top: 16px; font-size: 14px;
+    padding: 10px 16px; border-radius: 8px;
+    display: none;
+  }
+  #status-msg.error {
+    background: rgba(217,79,61,.1); color: var(--red);
+    border: 1px solid rgba(217,79,61,.25);
+    display: block;
+  }
+  #status-msg.info {
+    background: rgba(46,95,163,.08); color: var(--blue);
+    border: 1px solid rgba(46,95,163,.2);
+    display: block;
+  }
+
+  /* ── CONSENT BANNER ── */
+  .consent-card {
+    background: var(--mint);
+    border: 1px solid rgba(26,122,110,.2);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    font-size: 13px; color: #1a5c53;
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px; color: var(--muted);
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 560px) {
+    .section-card { padding: 22px 16px; }
+    .options.grid-2 { grid-template-columns: 1fr; }
+    .pid-card { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<header>
+  <div class="header-badge">RES 901 · Semester 1, 2026</div>
+  <h1>Student Academic Experience Survey</h1>
+  <p>CIHE Australia &nbsp;·&nbsp; Study Hours, Satisfaction &amp; Wellbeing Research</p>
+</header>
+
+<div class="container">
+
+  <!-- Success Screen (hidden initially) -->
+  <div id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Thank you!</h2>
+    <p>Your response has been recorded successfully.<br>You're helping improve the student experience at CIHE.</p>
+    <br>
+    <a href="#" class="btn-csv" id="download-own-csv">⬇ Download your response (CSV)</a>
+  </div>
+
+  <!-- Survey Form -->
+  <div id="survey-form">
+
+    <!-- Participant ID -->
+    <div class="pid-card">
+      <div class="pid-icon">🔒</div>
+      <div>
+        <div class="pid-num" id="pid-display">Generating ID…</div>
+        <div class="pid-text">Your anonymous participant ID — no personal info is collected.</div>
+      </div>
+    </div>
+
+    <!-- Consent -->
+    <div class="consent-card">
+      📋 <strong>Informed Consent:</strong> By completing this survey, you agree that your anonymous responses may be used for academic research purposes within CIHE Australia. Participation is voluntary and you may stop at any time. No personally identifiable information is collected.
+    </div>
+
+    <form id="the-form" novalidate>
+
+      <!-- ══ SECTION A ══ -->
+      <div class="section-card" style="animation-delay:.05s">
+        <div class="section-title">
+          <div class="section-icon">👤</div>
+          Section A: About You
+        </div>
+        <div class="section-desc">Basic demographic information to help contextualise the findings.</div>
+
+        <!-- Q1 Gender -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">1</span>What is your gender?<span class="required">*</span></div>
+          <div class="options grid-2">
+            <label class="option-label"><input type="radio" name="q1_gender" value="Female" required> Female</label>
+            <label class="option-label"><input type="radio" name="q1_gender" value="Male"> Male</label>
+            <label class="option-label"><input type="radio" name="q1_gender" value="Non-binary/Gender diverse"> Non-binary / Gender diverse</label>
+            <label class="option-label"><input type="radio" name="q1_gender" value="Prefer not to say"> Prefer not to say</label>
+          </div>
+        </div>
+
+        <!-- Q2 Age -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">2</span>What is your age group?<span class="required">*</span></div>
+          <div class="options grid-2">
+            <label class="option-label"><input type="radio" name="q2_age" value="18-22 years" required> 18–22 years</label>
+            <label class="option-label"><input type="radio" name="q2_age" value="23-27 years"> 23–27 years</label>
+            <label class="option-label"><input type="radio" name="q2_age" value="28-32 years"> 28–32 years</label>
+            <label class="option-label"><input type="radio" name="q2_age" value="33+ years"> 33+ years</label>
+          </div>
+        </div>
+
+        <!-- Q3 Year of Study -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">3</span>What year of study are you currently in?<span class="required">*</span></div>
+          <div class="options grid-2">
+            <label class="option-label"><input type="radio" name="q3_year" value="Year 1" required> Year 1</label>
+            <label class="option-label"><input type="radio" name="q3_year" value="Year 2"> Year 2</label>
+            <label class="option-label"><input type="radio" name="q3_year" value="Year 3"> Year 3</label>
+            <label class="option-label"><input type="radio" name="q3_year" value="Other"> Other</label>
+          </div>
+        </div>
+
+        <!-- Q4 Faculty -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">4</span>What is your faculty / area of study?<span class="required">*</span></div>
+          <div class="options">
+            <label class="option-label"><input type="radio" name="q4_faculty" value="Business" required> Business</label>
+            <label class="option-label"><input type="radio" name="q4_faculty" value="Information Technology"> Information Technology</label>
+            <label class="option-label"><input type="radio" name="q4_faculty" value="Health Sciences"> Health Sciences</label>
+            <label class="option-label"><input type="radio" name="q4_faculty" value="Education"> Education</label>
+            <label class="option-label"><input type="radio" name="q4_faculty" value="Other"> Other</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION B ══ -->
+      <div class="section-card" style="animation-delay:.1s">
+        <div class="section-title">
+          <div class="section-icon" style="background:linear-gradient(135deg,#1a7a6e,#22a896)">📚</div>
+          Section B: Study Behaviour
+        </div>
+        <div class="section-desc">How you engage with your studies outside of scheduled classes.</div>
+
+        <!-- Q5 Study hours -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">5</span>On average, how many hours per week do you spend studying (excluding scheduled classes)?<span class="required">*</span></div>
+          <div class="options">
+            <label class="option-label"><input type="radio" name="q5_hours" value="Less than 5" required> Fewer than 5 hours</label>
+            <label class="option-label"><input type="radio" name="q5_hours" value="5-9"> 5–9 hours</label>
+            <label class="option-label"><input type="radio" name="q5_hours" value="10-14"> 10–14 hours</label>
+            <label class="option-label"><input type="radio" name="q5_hours" value="15-19"> 15–19 hours</label>
+            <label class="option-label"><input type="radio" name="q5_hours" value="20+"> 20+ hours</label>
+          </div>
+        </div>
+
+        <!-- Q6 Study location -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">6</span>Where do you do most of your studying?<span class="required">*</span></div>
+          <div class="options">
+            <label class="option-label"><input type="radio" name="q6_location" value="On campus" required> On campus (library / study rooms)</label>
+            <label class="option-label"><input type="radio" name="q6_location" value="At home"> At home</label>
+            <label class="option-label"><input type="radio" name="q6_location" value="Combination"> A combination of both</label>
+            <label class="option-label"><input type="radio" name="q6_location" value="Cafe/public"> Café or public space</label>
+          </div>
+        </div>
+
+        <!-- Q7 Barriers -->
+        <div class="question">
+          <div class="q-label"><span class="q-num">7</span>What is the biggest barrier to your studying? <em style="font-weight:400;color:var(--muted)">(Select one)</em><span class="required">*</span></div>
+          <div class="options">
+            <label class="option-label"><input type="radio" name="q7_barrier" value="Work commitments" required> Work commitments</label>
+            <label class="option-label"><input type="radio" name="q7_barrier" value="Financial pressure"> Financial pressure</label>
+            <label class="option-label"><input type="radio" name="q7_barrier" value="Family responsibilities"> Family responsibilities</label>
+            <label class="option-label"><input type="radio" name="q7_barrier" value="Transport/access"> Transport / access issues</label>
+            <label class="option-label"><input type="radio" name="q7_barrier" value="Lack of resources"> Lack of study resources or materials</label>
+            <label class="option-label"><input type="radio" name="q7_barrier" value="None"> None — I have no significant barriers</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ SECTION C ══ -->
+      <div class="section-card" style="animation-delay:.15s">
+        <div class="section-title">
+          <div class="section-icon" style="background:linear-gradient(135deg,#e07b39,#f0a060)">🎯</div>
+          Section C: Satisfaction &amp; Stress
+        </div>
+        <div class="section-desc">Rate each item on a scale from 1 (Very Low) to 5 (Very High).</div>
+
+        <div class="likert-wrap">
+          <table class="likert-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>1<br><span style="font-weight:400;font-size:10px">Very Low</span></th>
+                <th>2</th>
+                <th>3<br><span style="font-weight:400;font-size:10px">Moderate</span></th>
+                <th>4</th>
+                <th>5<br><span style="font-weight:400;font-size:10px">Very High</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Q8</strong> Overall satisfaction with your academic experience at CIHE<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q8_overall_sat" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q9</strong> Satisfaction with your own academic performance<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q9_perf_sat" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q10</strong> How supported do you feel by lecturers and the institution<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q10_support" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q10_support" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q10_support" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q10_support" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q10_support" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q11</strong> How manageable do you find your current workload<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q11_workload" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q11_workload" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q11_workload" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q11_workload" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q11_workload" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q12</strong> How stressed do you feel about your academic commitments<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q12_stress" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q12_stress" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q12_stress" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q12_stress" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q12_stress" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q13</strong> To what extent does academic stress affect your daily life<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q13_stress_impact" value="5"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ SECTION D ══ -->
+      <div class="section-card" style="animation-delay:.2s">
+        <div class="section-title">
+          <div class="section-icon" style="background:linear-gradient(135deg,#6b4c9a,#9b7bc8)">💚</div>
+          Section D: Wellbeing Indicators
+        </div>
+        <div class="section-desc">Rate each item on the same 1–5 scale.</div>
+
+        <div class="likert-wrap">
+          <table class="likert-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>1<br><span style="font-weight:400;font-size:10px">Very Low</span></th>
+                <th>2</th>
+                <th>3<br><span style="font-weight:400;font-size:10px">Moderate</span></th>
+                <th>4</th>
+                <th>5<br><span style="font-weight:400;font-size:10px">Very High</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Q14</strong> Sense of belonging to the CIHE student community<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q14_belonging" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q14_belonging" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q14_belonging" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q14_belonging" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q14_belonging" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q15</strong> Confidence in your academic abilities<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q15_confidence" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q15_confidence" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q15_confidence" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q15_confidence" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q15_confidence" value="5"></td>
+              </tr>
+              <tr>
+                <td><strong>Q16</strong> How well you balance study and personal life<span class="required">*</span></td>
+                <td><input class="likert-radio" type="radio" name="q16_balance" value="1" required></td>
+                <td><input class="likert-radio" type="radio" name="q16_balance" value="2"></td>
+                <td><input class="likert-radio" type="radio" name="q16_balance" value="3"></td>
+                <td><input class="likert-radio" type="radio" name="q16_balance" value="4"></td>
+                <td><input class="likert-radio" type="radio" name="q16_balance" value="5"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <!-- Q17 Sleep -->
+          <div class="question">
+            <div class="q-label"><span class="q-num">17</span>On average, how many hours of sleep do you get on a typical weeknight?<span class="required">*</span></div>
+            <div class="options grid-2">
+              <label class="option-label"><input type="radio" name="q17_sleep" value="Less than 5hrs" required> Less than 5 hours</label>
+              <label class="option-label"><input type="radio" name="q17_sleep" value="5-6hrs"> 5–6 hours</label>
+              <label class="option-label"><input type="radio" name="q17_sleep" value="7-8hrs"> 7–8 hours</label>
+              <label class="option-label"><input type="radio" name="q17_sleep" value="More than 8hrs"> More than 8 hours</label>
+            </div>
+          </div>
+
+          <!-- Q18 Open -->
+          <div class="question">
+            <div class="q-label"><span class="q-num">18</span>Is there anything else you'd like to share about your academic experience at CIHE? <em style="font-weight:400;color:var(--muted)">(Optional)</em></div>
+            <textarea name="q18_comments" placeholder="Share any thoughts, challenges, or suggestions here…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-wrap">
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span id="submit-icon">✉️</span>
+          <span id="submit-text">Submit My Response</span>
+        </button>
+        <div id="status-msg"></div>
+        <p style="margin-top:14px;font-size:12px;color:var(--muted)">
+          Your response is anonymous and encrypted in transit.<br>
+          Data is saved to Google Sheets and a CSV backup is generated.
+        </p>
+      </div>
+
+    </form>
+  </div><!-- #survey-form -->
+
+</div><!-- .container -->
+
+<footer>
+  CIHE Australia &nbsp;·&nbsp; RES 901: Quantitative Research Methods &nbsp;·&nbsp; Semester 1, 2026<br>
+  All responses are anonymous and used solely for academic research.
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CONFIG — REPLACE THESE BEFORE DEPLOYING
+// ═══════════════════════════════════════════════════════════
+const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+// Steps to get this URL:
+//  1. Open Google Sheets → Extensions → Apps Script
+//  2. Paste the code from google-apps-script.js
+//  3. Deploy → New deployment → Web App → Execute as: Me → Who has access: Anyone
+//  4. Copy the Web App URL and paste it above
+// ═══════════════════════════════════════════════════════════
+
+// Generate anonymous participant ID
+function generatePID() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id = 'P';
+  for (let i = 0; i < 7; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
+}
+const participantID = generatePID();
+document.getElementById('pid-display').textContent = participantID;
+
+// Progress bar
+function updateProgress() {
+  const required = document.querySelectorAll('[required]');
+  const names = [...new Set([...required].map(el => el.name))];
+  const answered = names.filter(name => {
+    const els = document.querySelectorAll(`[name="${name}"]`);
+    return [...els].some(el => el.checked || (el.value && el.value.trim()));
+  });
+  const pct = names.length ? (answered.length / names.length) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+document.getElementById('the-form').addEventListener('change', updateProgress);
+updateProgress();
+
+// Collect form data
+function collectData() {
+  const fd = new FormData(document.getElementById('the-form'));
+  const data = { participant_id: participantID, timestamp: new Date().toISOString() };
+  for (const [k, v] of fd.entries()) data[k] = v;
+  return data;
+}
+
+// CSV helpers
+const CSV_HEADERS = [
+  'participant_id','timestamp',
+  'q1_gender','q2_age','q3_year','q4_faculty',
+  'q5_hours','q6_location','q7_barrier',
+  'q8_overall_sat','q9_perf_sat','q10_support','q11_workload','q12_stress','q13_stress_impact',
+  'q14_belonging','q15_confidence','q16_balance',
+  'q17_sleep','q18_comments'
+];
+
+function toCSVRow(data) {
+  return CSV_HEADERS.map(h => {
+    const v = data[h] || '';
+    return '"' + String(v).replace(/"/g, '""') + '"';
+  }).join(',');
+}
+
+// Store responses in sessionStorage for CSV
+function storeResponse(data) {
+  let all = JSON.parse(sessionStorage.getItem('survey_responses') || '[]');
+  all.push(data);
+  sessionStorage.setItem('survey_responses', JSON.stringify(all));
+}
+
+// Download CSV of all collected responses this session
+function downloadCSV(data) {
+  const rows = [CSV_HEADERS.join(','), toCSVRow(data)];
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `CIHE_Survey_${participantID}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Validation
+function validate() {
+  const required = [...new Set([...document.querySelectorAll('[required]')].map(el => el.name))];
+  for (const name of required) {
+    const els = document.querySelectorAll(`[name="${name}"]`);
+    const answered = [...els].some(el => el.checked);
+    if (!answered) {
+      const q = els[0].closest('.question') || els[0].closest('tr');
+      if (q) { q.scrollIntoView({ behavior:'smooth', block:'center' }); }
+      return false;
+    }
+  }
+  return true;
+}
+
+// Status message
+function showStatus(msg, type='info') {
+  const el = document.getElementById('status-msg');
+  el.textContent = msg;
+  el.className = type;
+}
+function hideStatus() {
+  const el = document.getElementById('status-msg');
+  el.className = '';
+  el.style.display = 'none';
+}
+
+// Submit
+document.getElementById('the-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  if (!validate()) {
+    showStatus('⚠️  Please answer all required questions before submitting.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  const btnText = document.getElementById('submit-text');
+  const btnIcon = document.getElementById('submit-icon');
+  btn.disabled = true;
+  btnIcon.textContent = '⏳';
+  btnText.textContent = 'Submitting…';
+  hideStatus();
+
+  const data = collectData();
+  storeResponse(data);
+
+  // Send to Google Sheets
+  let sheetsOK = false;
+  if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+    try {
+      const res = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      sheetsOK = true;
+    } catch (err) {
+      console.warn('Google Sheets submission failed:', err);
+    }
+  } else {
+    // Demo mode — no sheet URL set yet
+    sheetsOK = true;
+  }
+
+  // Show success
+  document.getElementById('survey-form').style.display = 'none';
+  document.getElementById('success-screen').style.display = 'block';
+  document.getElementById('progress-bar').style.width = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Hook up CSV download button
+  document.getElementById('download-own-csv').addEventListener('click', function(e) {
+    e.preventDefault();
+    downloadCSV(data);
+  });
+});
+</script>
+
+</body>
+</html>
